@@ -1,40 +1,39 @@
 # Introduction 
-**本人学习Netty后决定自己写1个基于Netty、Zookeeper、Spring的轻量级RPC框架，收获颇丰，不过本人才疏学浅，难免有所疏漏，若有批评和建议请发到邮箱1035090753@qq.com**
+**After studying Netty, I decided to write a lightweight RPC framework based on Netty, Zookeeper, and Spring. The gains have been quite fruitful. However, I have limited knowledge and abilities, so there may be some oversights. If you have any criticisms or suggestions, please send them to my email at sli964@wisc.edu**
 
 
 # Features
-- **支持长连接**
-- **支持异步调用**
-- **支持心跳检测**
-- **支持JSON序列化**
-- **接近零配置，基于注解实现调用**
-- **基于Zookeeper实现服务注册中心**
-- **支持客户端连接动态管理**
-- **支持客户端服务监听、发现功能**
-- **支持服务端服务注册功能**
-- **基于Netty4.X版本实现**
+- **Supports long connections**
+- **Supports asynchronous invocation**
+- **Supports heartbeat detection**
+- **Supports JSON serialization**
+- **Close to zero configuration, based on annotation for invocation**
+- **Implemented service registry center based on Zookeeper**
+- **Supports dynamic management of client connections**
+- **Supports client service monitoring and discovery function**
+- **Supports server-side service registration function**
+- **Implemented based on Netty4.X version**
 
 # Quick Start
-### 服务端开发
-- **在服务端的Service下添加你自己的Service,并加上@Service注解**
+### Server-side Development
+- **Add your own Service under the server's Service, and add the @Service annotation**
 	<pre>
 	@Service
 	public class TestService {
 		public void test(User user){
-			System.out.println("调用了TestService.test");
+			System.out.println("Called TestService.test");
 		}
 	}
 	</pre>
 
-- **生成1个服务接口并生成1个实现该接口的类**
-	###### 接口如下
+- **Create a service interface and generate a class implements this interface**
+	###### Interface as following
 	<pre>
 	public interface TestRemote {
 		public Response testUser(User user);  
 	}
 	</pre>
-	###### 实现类如下，为你的实现类添加@Remote注解，该类是你真正调用服务的地方，你可以生成自己想返回给客户端的任何形式的Response
-
+	###### The implementation class is as follows. Add the @Remote annotation to your implementation class. This class is where you truly invoke the service. You can generate any form of Response you want to return to the client
 	<pre> 
 	@Remote
 	public class TestRemoteImpl implements TestRemote{
@@ -49,16 +48,16 @@
 	</pre>
 
 
-### 客户端开发
-- **在客户端生成一个接口，该接口为你要调用的接口**
+### Client-side Development
+- **Create an interface on the client side, which is the interface you want to call**
 	<pre>
 	public interface TestRemote {
 		public Response testUser(User user);
 	}
 	</pre>
 
-### 使用
-- **在你要调用的地方生成接口形式的属性，为该属性添加@RemoteInvoke注解**
+### Usage
+- **Generate an interface form of attribute at the place where you want to make the call, and add the @RemoteInvoke annotation to this attribute**
 	<pre>
 	@RunWith(SpringJUnit4ClassRunner.class)
 	@ContextConfiguration(classes=RemoteInvokeTest.class)
@@ -71,20 +70,20 @@
 		public void testSaveUser(){
 			User user = new User();
 			user.setId(1000);
-			user.setName("张三");
+			user.setName("Jason Lee");
 			userremote.testUser(user);
 		}
 	}	
 	</pre>
 
-### 结果
-- **一万次调用结果**
+### Result
+- **Result of ten thousand calls**
 ![Markdown](https://s1.ax1x.com/2018/07/06/PZMMBF.png)
 
-- **十万次调用结果**
+- **Result of one hundred thousand calls**
 ![Markdown](https://s1.ax1x.com/2018/07/06/PZM3N9.png)
 
-- **一百万次调用结果**
+- **Result of one million calls**
 ![Markdown](https://s1.ax1x.com/2018/07/06/PZMY1x.png)
 
 
